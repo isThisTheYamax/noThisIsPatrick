@@ -22,8 +22,13 @@
     #seconds {
         font-size: 40px;
     }
+    .container {
+      width: 100%;
+      display: flex;
+      justify-content: center; /* Center horizontally */
+    }
+
     .eapps-widget {
-      margin-left: calc((100% - 300px)/2);
       width: 300px !important;
       overflow: hidden;
     }
@@ -34,7 +39,9 @@
       <span id="hour"></span>:<span id="minute"></span><span id="seconds"></span>
   </div>
   <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
-  <div class="elfsight-app-16d30fd8-6f90-4cb4-9b6d-0716c9dec07f" data-elfsight-app-lazy></div>
+  <div class="container">
+    <div class="elfsight-app-16d30fd8-6f90-4cb4-9b6d-0716c9dec07f" data-elfsight-app-lazy></div>
+  </div>
 <script>
   function updateClock() {
       var now = new Date();
