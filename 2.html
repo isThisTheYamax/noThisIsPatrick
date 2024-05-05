@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+    body {
+      background: black;
+    }
+    #clock {
+        color: #eeeeee;
+        font-family: Tahoma;
+        font-size: 72px;
+        text-align: center;
+    }
+
+    #seconds {
+        font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div id="clock">
+      <span id="hour"></span>:<span id="minute"></span> <span id="seconds"></span>
+  </div>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/36d17139d55/hanyu/" data-label_1="HANYŪ" data-label_2="WEATHER" data-days="3" data-theme="dark" >HANYŪ WEATHER</a>
+<script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
+<script>
+  function updateClock() {
+      var now = new Date();
+      var hour = now.getHours();
+      var minute = now.getMinutes();
+      var second = now.getSeconds();
+
+      // Add leading zeros if necessary
+      hour = hour < 10 ? "0" + hour : hour;
+      minute = minute < 10 ? "0" + minute : minute;
+      second = second < 10 ? "0" + second : second;
+
+      // Update the clock display
+      document.getElementById('hour').textContent = hour;
+      document.getElementById('minute').textContent = minute;
+      document.getElementById('seconds').textContent = second;
+
+      // Schedule the next update in 1 second
+      setTimeout(updateClock, 1000);
+  }
+
+  // Initial call to update the clock
+  updateClock();
+</script>
+<script>
+  setInterval(function() {
+    window.location.reload();
+  }, 25000);
+</script>
+</body>
+</html>
