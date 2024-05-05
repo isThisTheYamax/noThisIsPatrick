@@ -11,20 +11,24 @@
     #clock {
         color: #eeeeee;
         font-family: Tahoma;
-        font-size: 72px;
+        font-size: 120px;
         text-align: center;
     }
 
     #seconds {
-        font-size: 18px;
+        font-size: 40px;
+    }
+    .weatherwidget-io {
+      margin-left: calc((100% - 315px)/2);
+      width: 315px !important;
     }
   </style>
 </head>
 <body>
   <div id="clock">
-      <span id="hour"></span>:<span id="minute"></span> <span id="seconds"></span>
+      <span id="hour"></span>:<span id="minute"></span><span id="seconds"></span>
   </div>
-  <a class="weatherwidget-io" href="https://forecast7.com/en/36d17139d55/hanyu/" data-label_1="HANYŪ" data-label_2="WEATHER" data-days="3" data-theme="dark" >HANYŪ WEATHER</a>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/36d17139d55/hanyu/" data-label_1="HANYŪ" data-label_2="WEATHER" data-days="7" data-theme="dark" >HANYŪ WEATHER</a>
 <script>
   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
 </script>
@@ -53,9 +57,9 @@
   updateClock();
 </script>
 <script>
-  //setInterval(function() {
+  setInterval(function() {
     window.location.reload();
-  }, 25000);
+  }, 300000);
 </script>
 </body>
 </html>
