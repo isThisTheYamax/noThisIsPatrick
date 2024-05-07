@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" /> 
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="apple-touch-icon" href="icons/drawB.png">
+    <link rel="shortcut icon" type="image/png" href="icons/drawB.png" />
+    <title>T</title>
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        body {
+          margin: 0px;
+          overflow: hidden;
+        }
+          #draw-board-container {
+              position: relative;
+              width: 100vw;
+              height: 100vh;
+          }
+          #draw-board {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              border: 0px solid #000;
+          }
+          .controls {
+              position: fixed;
+              top: 10px;
+              left: 10px;
+          }
+        button, option, select {
+          font-size: 18px;
+          text-transform: uppercase;
+          font-family: Consolas, Lucida Console;
+          font-weight: bold;
+          -webkit-user-select: none; /* Safari */
+          -ms-user-select: none; /* IE 10 and IE 11 */
+          user-select: none; /* Standard syntax */
+        }
+      </style>
+      </head>
+      <body>
+      <div id="draw-board-container">
+          <canvas id="draw-board"></canvas>
+      </div>
+      <div class="controls">
+          <button onclick="clearCanvas()">CLEAR</button>
+          <select id="pen-size" onchange="changePenSize()">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+          </select>
+          <button onclick="undo()">Undo</button>
+          <button onclick="redo()">Redo</button>
+      </div>
+      
+      <script>
+          const canvas = document.getElementById('draw-board');
+          const ctx = canvas.getContext('2d');
+      
+          let isDrawing = false;
+          let undoStack = [];
+          let redoStack = [];
+      
+          let penSize = 1; // Default pen size
+          ctx.lineWidth = penSize;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+      
+          canvas.addEventListener('mousedown', startDrawing);
+          canvas.addEventListener('mousemove', draw);
+          canvas.addEventListener('mouseup', stopDrawing);
+          canvas.addEventListener('mouseout', stopDrawing);
+          
+          // Touch events
+          canvas.addEventListener('touchstart', handleTouchStart, false);
+          canvas.addEventListener('touchmove', handleTouchMove, false);
+          canvas.addEventListener('touchend', handleTouchEnd, false);
+      
+          // Initialize the canvas state for undo/redo
+          initializeCanvasState();
+      
+          function initializeCanvasState() {
+              undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+          }
+      
+          function startDrawing(e) {
+              isDrawing = true;
+              ctx.beginPath();
+              ctx.moveTo(e.offsetX, e.offsetY);
+          }
+      
+          function draw(e) {
+              if (!isDrawing) return;
+              ctx.lineTo(e.offsetX, e.offsetY);
+              ctx.stroke();
+          }
+      
+          function stopDrawing() {
+              if (!isDrawing) return;
+              isDrawing = false;
+              undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+          }
+      
+          function handleTouchStart(e) {
+              e.preventDefault();
+              isDrawing = true;
+              ctx.beginPath();
+              ctx.moveTo(e.touches[0].pageX - canvas.offsetLeft, e.touches[0].pageY - canvas.offsetTop);
+          }
+      
+          function handleTouchMove(e) {
+              if (!isDrawing) return;
+              e.preventDefault();
+              ctx.lineTo(e.touches[0].pageX - canvas.offsetLeft, e.touches[0].pageY - canvas.offsetTop);
+              ctx.stroke();
+          }
+      
+          function handleTouchEnd(e) {
+              if (!isDrawing) return;
+              e.preventDefault();
+              isDrawing = false;
+              undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+          }
+      
+          function clearCanvas() {
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              undoStack = [];
+              redoStack = [];
+              initializeCanvasState();
+          }
+      
+          function changePenSize() {
+              penSize = parseInt(document.getElementById('pen-size').value);
+              ctx.lineWidth = penSize;
+          }
+      
+          function undo() {
+              if (undoStack.length > 1) { // Check if there's more than just the initial state
+                  redoStack.push(undoStack.pop());
+                  ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+              }
+          }
+      
+          function redo() {
+              if (redoStack.length > 0) {
+                  undoStack.push(redoStack.pop());
+                  ctx.putImageData(undoStack[undoStack.length - 1], 0, 0);
+              }
+          }
+      
+          // Resize canvas when viewport changes size
+          window.addEventListener('resize', resizeCanvas);
+      
+          function resizeCanvas() {
+              canvas.width = canvas.offsetWidth;
+              canvas.height = canvas.offsetHeight;
+              initializeCanvasState(); // Reset canvas state after resizing
+          }
+      
+          // Initialize canvas size
+          resizeCanvas();
+      </script>
+      </body>
+      </html>
