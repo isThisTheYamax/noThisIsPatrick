@@ -9,62 +9,22 @@
     <link rel="shortcut icon" type="image/png" href="icons/oc.png" />
     <title>T</title>
   <style>
-    body {
-      background: black;
-    }
-    #clock {
-        color: #eeeeee;
-        font-family: Tahoma;
-        font-size: 120px;
-        text-align: center;
-    }
-
-    #seconds {
-        font-size: 40px;
-    }
-    .container {
-      width: 100%;
-      display: flex;
-      justify-content: center; /* Center horizontally */
-    }
-
-    .eapps-widget {
-      width: 300px !important;
-      overflow: hidden;
-    }
-  </style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        video {
+            min-width: 100%;
+            min-height: 100%;
+        }
+    </style>
 </head>
 <body>
-  <div id="clock">
-      <span id="hour"></span>:<span id="minute"></span><span id="seconds"></span>
-  </div>
-  <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
-  <div class="container">
-    <div class="elfsight-app-16d30fd8-6f90-4cb4-9b6d-0716c9dec07f" data-elfsight-app-lazy></div>
-  </div>
-<script>
-  function updateClock() {
-      var now = new Date();
-      var hour = now.getHours();
-      var minute = now.getMinutes();
-      var second = now.getSeconds();
-
-      // Add leading zeros if necessary
-      hour = hour < 10 ? "0" + hour : hour;
-      minute = minute < 10 ? "0" + minute : minute;
-      second = second < 10 ? "0" + second : second;
-
-      // Update the clock display
-      document.getElementById('hour').textContent = hour;
-      document.getElementById('minute').textContent = minute;
-      document.getElementById('seconds').textContent = second;
-
-      // Schedule the next update in 1 second
-      setTimeout(updateClock, 1000);
-  }
-
-  // Initial call to update the clock
-  updateClock();
-</script>
+    <video autoplay muted loop>
+        <source src="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
 </body>
 </html>
